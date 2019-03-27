@@ -1,0 +1,361 @@
+.text-input--underbar:invalid {
+    border-bottom: none !important;
+}
+
+.logo-menu {
+    padding: 5px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/***** FONT ******/
+@font-face {
+    font-family: "Century Gothic";
+	src: url('../font/Century_Gothic.ttf');
+}
+*:not(ons-icon):not(i){
+    font-family: "Century Gothic" !important;
+}
+
+.font-fix{
+    font-family: "Century Gothic" !important;
+}
+
+
+/***** GENERAL ***/
+img {
+    width: 100%;
+}
+
+h1, h4 {
+    font-family: 'Quicksand', sans-serif !important;
+}
+
+hr {
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    color: #DD005C;
+    background-color: #DD005C;
+    border: 0;
+}
+
+.logo {
+    background: url('../images/logo_picto_40_40.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.logo-left {
+    background: url('../images/logo_picto_40_40.png');
+    background-repeat: no-repeat;
+    background-position: left;
+    margin-left: 20px;
+}
+
+/***** PAGE ******/
+.page__background {
+    background: white;
+}
+
+/***** BOTTOM TOOLBAR ******/
+#feed-bottom-toolbar{
+    background-color: #DD005C;
+    margin: 0;
+}
+
+/***** BUTTON ******/
+.button-next{
+    text-align: center;
+    background: #DD005C;
+}
+
+.button--material {
+    background: #DD005C;
+}
+
+.button--large--cta {
+    background: #DD005C;
+}
+
+.button--light {
+    width: 100%;
+    text-align: center;
+}
+
+.button--quiet {
+    color: #808080;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.btn-menu{
+    padding: 0;
+    color: #DD005C;
+}
+.btn-menu:hover{
+    color: #DD005C;
+    text-decoration: none;
+}
+
+#md-back-button-icon {
+    color: #DD005C !important;
+    fill: #DD005C !important;
+}
+
+.forgot {
+    width: 100%;
+    text-align: right;
+    color: grey;
+}
+
+.facebook {
+    background: #3F5C9A;
+}
+
+.google {
+    background: #4285F4;
+}
+
+.list-item__icon{
+    color: #DD005C;
+}
+
+.social{
+    padding: 14px 6px;
+}
+
+.button-primary{
+    background-color: #DD005C;
+}
+
+.primary-back-button{
+    border: none !important;
+    background-color: #FFF !important;
+}
+.primary-back-button:focus{
+    outline: none !important;
+}
+/***** TOOLBAR *****/
+.toolbar {
+    background: #FFF;
+    border-bottom: solid 1px #DD005C;
+}
+
+.toolbar-button {
+    color: #DD005C;
+}
+
+.back-button__label{
+    color: #DD005C;
+}
+
+.bottom-bar {
+    background: #FFF;
+    border-top: solid 1px #DD005C;
+    margin: 10px 0;
+}
+
+.tabbar__button {
+    color: #FFF;
+    padding-bottom: 10px;
+}
+
+/***** CARD *******/
+.card__title {
+    font-family: 'Quicksand', sans-serif !important;
+}
+
+/***** DIV *******/
+.fiche-header {
+    display: block;
+    font-family: 'Quicksand', sans-serif !important;
+}
+
+.fiche-subtitle {
+    color: #657786;
+    display: flex;
+    float: right;
+}
+
+.list-item__thumbnail {
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 6px;
+    display: block;
+    margin: 0;
+}
+
+.button-cta {
+    margin: 40px 0 20px;
+}
+
+.back-button__icon {
+    fill: #DD005C !important;
+}
+
+.back-button {
+    height: 44px;
+    padding-left: 8px;
+    color: #DD005C;
+}
+
+/* LIST */
+
+.list-item__center{
+    padding: 14px 6px;
+}
+
+.list-item__left{
+    padding: 12px 12px 12px 0;
+}
+
+.list-item--material__left{
+    min-width: inherit;
+}
+
+.label-file {
+    cursor: pointer;
+    margin: 0;
+}
+
+.badge-tag{
+    background-color: #DD005C;
+    font-size: 100%;
+}
+
+/* FORM */
+.input-file {
+    display: none;
+}
+
+.form-description {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0 !important;
+    border-bottom: 1px solid rgb(204, 204, 204) !important;
+    border-radius: 0 !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-description:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #DD005C !important;
+    outline: 0;
+    /* box-shadow: 0 0 0 0.2rem rgba(199, 44, 72, 0.25); */
+    box-shadow: none !important;
+}
+
+.text-input--material:focus{
+    background-image:
+    linear-gradient(#DD005C, #DD005C),
+    linear-gradient(to top, transparent 1px, #afafaf 1px);
+}
+
+.text-input--material__label--active {
+    color: #DD005C !important;
+}
+
+.page__content{
+    overflow-x: hidden;
+}
+
+/* MESSAGE */
+.text-message{
+    border: none;
+    resize: none;
+    width: 100%
+}
+.text-message:active{
+    border: #DD005C;
+    border-radius: 5px;
+}
+
+.card-message{
+    margin: 0;
+    width: 100%;
+    padding: 5px;
+}
+
+.toolbar-message{
+    padding-bottom: 55px;
+    margin-bottom: 0;
+}
+
+.send-message{
+    color: #DD005C !important;
+    border-color: #DD005C !important;
+    box-shadow: none !important;
+
+}
+
+.send-message:hover{
+    color: #FFF !important;
+    background-color: #DD005C !important;
+    border-color: #DD005C !important;
+}
+.send-message:active{
+    color: #FFF !important;
+    background-color: #DD005C !important;
+    border-color: #DD005C !important;
+}
+
+.col-message{
+    padding-right: 5px;
+}
+.col-send{
+    padding-left: 5px;
+}
+
+.input-100{
+    width: 100% !important;
+}
+
+.list-100{
+    height: 100px;
+}
+
+.no-more-announce{
+    height : 120px;
+    text-align: center;
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+    box-sizing: border-box;
+
+    height: 40px;
+
+    padding: 10px 12px;
+
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+    width: 100%;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self'  'unsafe-inline'  ; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" type="text/css" href="css/onsenui.css">
+    <link rel="stylesheet" type="text/css" href="css/onsen-css-components.min.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <script src="js/onsenui.min.js"></script>
+
+    <title>Hello World</title>
+</head>
+
+<body>
+    <ons-navigator id="appNavigator" swipeable swipe-target-width="80px" page="file-actu.html">
+        <ons-page>
+            <ons-splitter id="appSplitter">
+                <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="right" collapse="" width="260px">
+                </ons-splitter-side>
+                <ons-splitter-content page="file-actu.html"></ons-splitter-content>
+            </ons-splitter>
+        </ons-page>
+    </ons-navigator>
+
+    <ons-template id="sidemenu.html">
+        <ons-page>
+            <div class="profile-pic">
+                <img class="logo-menu" src="{{asset('images/logo.png')}}">
+            </div>
+            <ons-list>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <img src="{{ asset('images/Picto/PICTO-FIL-D_ACTU-30x40-r.png') }}" alt=""
+                            style="max-width: 20px; max-height: 30px;">
+                    </div>
+                    <div class="center">
+                        <a href="{{ route('feed') }}" class="btn-menu">Fil d'actu</a>
+                    </div>
+                    <div class="right">
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <img src="{{ asset('images/Picto/PICTO-MESSAGERIE-40x40-r.png') }}" alt=""
+                            style="max-width: 20px; max-height: 30px;">
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        @if(Auth::user())
+                        <a @if($profile_completed) href="#"
+                            onclick="fn.pushPage('conversations.html',{ title: 'conv'});" @else href="#" @endif
+                            class="btn-menu">Messages</a>
+                        @else
+                        <a href="#" class="btn-menu">Messages</a>
+                        @endif
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <img src="{{ asset('images/Picto/PICTO-MON-COMPTE-40x30-r.png') }}" alt=""
+                            style="max-width: 20px; max-height: 30px;">
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        @if(Auth::user())
+                        <a href="{{ route('profile.show', Auth::user()->profile) }}" class="btn-menu">Profil</a>
+                        @else
+                        <a href="#" class="btn-menu">Profil</a>
+                        @endif
+
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <img src="{{ asset('images/Picto/PICTO-JE-VENDS-40x30-r.png') }}" alt=""
+                            style="max-width: 20px; max-height: 30px;">
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <a href="#" @if($profile_completed) onclick="fn.pushPage('sell-list.html',{title: 'achats'});"
+                            @endif class="btn-menu">Mes ventes</a>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-shopping-cart" style="padding-left:0;">
+                        </ons-icon>
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <a @if($profile_completed) onclick="fn.pushPage('buy-list.html',{title: 'achats'});" @endif
+                            href="#" class="btn-menu">Mes achats</a>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-tshirt" style="padding-left:0;">
+                        </ons-icon>
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <a href="#" @if($profile_completed)
+                            onclick="fn.pushPage('dressing.html',{title: 'transactions'});" @endif class="btn-menu">Mon
+                            dressing</a>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <img src="{{ asset('images/Picto/PICTO-JE-COPIE-40x35-r.png') }}" alt=""
+                            style="max-width: 20px; max-height: 30px;">
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <a href="#" @if($profile_completed)
+                            onclick="fn.pushPage('wishes.html',{title: 'transactions'});" @endif class="btn-menu">My
+                            wishes</a>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <ons-icon fixed-width class="list-item__icon" icon="fa-dollar-sign" style="padding-left:0;">
+                        </ons-icon>
+                    </div>
+                    <div class="center" @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <a href="#" @if($profile_completed)
+                            onclick="fn.pushPage('transactions.html',{title: 'transactions'});" @endif
+                            class="btn-menu">Mes transactions</a>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left side-menu">
+                        <ons-icon fixed-width class="list-item__icon"
+                            icon="fa-sign-{{ (Auth::user())? 'out':'in' }}-alt" style="padding-left:0;"></ons-icon>
+                    </div>
+                    <div class="center">
+                        @if(Auth::user())
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-link btn-menu">Se déconnecter</button>
+                        </form>
+                        @else
+                        <a href="#" class="btn-menu" onclick="fn.pushPage('login.html',{title: 'login'})">Se
+                            connecter</a>
+                        @endif
+                    </div>
+                </ons-list-item>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="file-actu.html">
+        <ons-page id="file-actu">
+            <ons-toolbar>
+                <div class="left"> </div>
+                <div class="center logo"></div>
+                <div class="right">
+                    <ons-toolbar-button onclick="fn.toggleMenu()">
+                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <ons-list>
+                <h1 style="text-align: center; margin:0;">Fil d'actualités</h1>
+            </ons-list>
+            <ons-list @if(!$profile_completed) onclick="createAlertDialog()" @endif id="announces_list">
+                <ons-lazy-repeat id="infinite-list">
+
+                    <ons-list-item modifier="longdivider" style="background-color: #ffdc73">
+                        <div class="left">
+
+                            <img class="list-item__thumbnail lazy"
+                                src="{{ Storage::disk('photos')->url($sponsor_article->images()->first()->url) }}">
+
+                        </div>
+                        <div class="center clickable" @if($profile_completed)
+                            onclick="redirectBlank('{{ $sponsor_article->url }}')" @endif>
+                            <div>
+                                <div class="fiche-header">
+                                    <span class="list-item__title list-item--longdivider__title"><b>Sponsor
+                                            :</b> {{ $sponsor_article->title }}</span>
+                                    <span
+                                        class="list-item__title list-item--longdivider__title">{{ $sponsor_article->description }}</span>
+                                </div>
+                            </div>
+                            <ons-row class="option-buttons">
+                                <ons-col>
+                                    <button class="button--quiet">
+                                        <span class="reaction-no">{{ $sponsor_article->price }} €</span>
+                                    </button>
+                                </ons-col>
+                            </ons-row>
+                        </div>
+                    </ons-list-item>
+
+                    {{-- ANNOUNCE --}}
+                    <ons-list-item modifier="longdivider" style="background-color: white" >
+                        <div class="left">
+
+                            <img class="list-item__thumbnail lazy"
+                                src="{{ Storage::disk('photos')->url($announce->images()->first()->url) }}">
+
+                        </div>
+                        <div class="center clickable">
+                            <div>
+                                <div class="fiche-header">
+                                    <span class="list-item__title list-item--longdivider__title"><b>{{ ($announce->price == null)? 'Recherche':'Vente' }}
+                                            :</b> {{ $announce->title }}</span>
+                                </div>
+                            </div>
+                            <ons-row class="option-buttons">
+                                <ons-col>
+                                    <button class="button--quiet">
+                                        <ons-row>
+                                            <div class="tabbar__icon tabbar__icon_announce">
+                                                <img src="{{ asset('images/Picto/PICTO-JE-COPIE-40x35-r.png') }}" alt=""
+                                                    style="width: 20px; height: 20px;">
+                                            </div>
+                                            <ons-col style="padding-left:5px;">
+                                                <span class="reaction-no">{{ $announce->likes()->count() }}</span>
+                                            </ons-col>
+                                        </ons-row>
+                                    </button>
+                                </ons-col>
+                                <ons-col>
+                                    <button class="button--quiet">
+                                        <ons-row>
+                                            <div class="tabbar__icon tabbar__icon_announce">
+                                                <img src="{{ asset('images/Picto/PICTO-JE-CONNAIS-40x40-r.png') }}"
+                                                    alt="" style="width: 20px; height: 20px;">
+                                            </div>
+                                            <ons-col style="padding-left:5px;">
+                                                <span
+                                                    class="reaction-no">{{ ($announce->detailsActive()->exists())? $announce->detailsActive->getPercentKnow():'0' }}
+                                                    %</span>
+                                            </ons-col>
+                                        </ons-row>
+                                    </button>
+                                </ons-col>
+                                <ons-col style="padding-left:5px">
+
+                                    <button class="button--quiet">
+                                        <ons-row>
+                                            <div class="tabbar__icon tabbar__icon_announce">
+                                                <img src="" alt="" style="width: 30px; height: 20px;">
+                                            </div>
+                                            <ons-col style="padding-left:5px;">
+                                                <span class="reaction-no">{{ $announce->sells()->count() }}</span>
+                                            </ons-col>
+                                        </ons-row>
+                                    </button>
+
+                                </ons-col>
+                            </ons-row>
+                        </div>
+                    </ons-list-item>
+
+                </ons-lazy-repeat>
+            </ons-list>
+
+            <div class="after-list" id="spinner">
+                <ons-icon icon="fa-spinner" size="26px" spin></ons-icon>
+            </div>
+           
+            <ons-list>
+                <ons-list-item modifier="longdivider">
+                    <div class="center text-center">
+                        Aucune annonce à afficher
+                    </div>
+                </ons-list-item>
+            </ons-list>
+            
+
+            <ons-bottom-toolbar id="feed-bottom-toolbar" position="fixed">
+                <ons-row>
+                    <ons-col>
+                        <button class="tabbar__button" onclick="fn.pushPage('filtre.html',  {title: 'Filtre'});">
+                            <div class="tabbar__icon">
+                                <img src="{{ asset('images/Picto/PICTO-RECHERCHE-35x40-b.png') }}" alt=""
+                                    style="width: 32px; height: 32px;">
+                            </div>
+                            <div class="tabbar__label"></div>
+                        </button>
+                    </ons-col>
+                    <ons-col @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <button class="tabbar__button" @if($profile_completed)
+                            onclick="fn.pushPage('shoot.html',  {title: 'Shoot'});" @endif>
+                            <div class="tabbar__icon">
+                                <ons-icon icon="fa-camera"></ons-icon>
+                            </div>
+                            <div class="tabbar__label"></div>
+                        </button>
+                    </ons-col>
+                    <ons-col @if(!$profile_completed) onclick="createAlertDialog()" @endif>
+                        <button class="tabbar__button" @if($profile_completed)
+                            onclick="fn.pushPage('conversations.html',{ title: 'conv'})" @endif>
+                            <div class="tabbar__icon">
+                                <img src="{{ asset('images/Picto/PICTO-MESSAGERIE-40x40-b.png') }}" alt=""
+                                    style="width: 32px; height: 32px;">
+                            </div>
+                            <div class="tabbar__label"></div>
+                        </button>
+                    </ons-col>
+                </ons-row>
+            </ons-bottom-toolbar>
+            
+            <script>
+                ons.ready(function () {
+
+                    //var loginError = '{{ $errors->has('email') }}';
+
+                    //if(loginError){
+                    //    fn.pushPage('login.html',{},{animation: 'none'});
+                    //}
+
+                    // var previousPageBool = '{{ Session::has('previousPage') }}';
+                    // var previousPage = '{{ Session::get('previousPage') }}'
+                    // console.log(previousPage)
+
+                    // session(['announce-id',$announce->id]);
+                    // session(['previousPage','sell']);
+
+                    // if(previousPageBool){
+                    //     if(previousPage == 'sell'){
+                    //         fn.pushPage('buy-list.html',{},{animation: 'none'});
+                    //         setTimeout(function () {
+                    //             fn.pushPage('purchase-{{ session()->get('announce-id') }}.html',{},{animation: 'none'});
+                    //         }, 500);
+
+                    //     }
+                    // }
+
+                    // if(sessionStorage.getItem('last-conversation')) {
+                    //     fn.pushPage('conversations.html', {title: 'message'}, {animation: 'none'});
+                    // } else if(sessionStorage.getItem('announce')) {
+                    //     fn.pushPage('show-'+sessionStorage.getItem('announce')+'.html', {title: 'message'}, {animation: 'none'});
+                    //     sessionStorage.removeItem('announce');
+                    // }
+
+                    var page_count = 1;
+
+                    document.addEventListener('init', function (event) {
+                        var page = event.target;
+                        if (page.matches('#file-actu')) {
+                            page.onInfiniteScroll = function (done) {
+                                loadMoreData(++page_count, done)
+                            };
+                        }
+                    });
+
+                    function loadMoreData(page, done) {
+                        $.ajax(
+                            {
+                                url: '?page=' + page,
+                                type: "get",
+                                timeout: 10000,
+                                beforeSend: function () {
+                                    //$('.ajax-load').show();
+                                },
+                            })
+                            .done(function (data) {
+                                if (data.html == "") {
+                                    $('#infinite-list').append("<div class='after-list no-more-articles center text-center'>Plus d'annonces à afficher</div>")
+                                    $('#spinner').remove();
+                                    return;
+                                } else {
+                                    $("#infinite-list").append(data.html);
+                                    done()
+                                }
+                            })
+                            .fail(function (jqXHR, ajaxOptions, thrownError) {
+                                alert('Le serveur ne réponds pas');
+                                done()
+                            });
+                    }
+
+                });
+            </script>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="filtre.html">
+        <ons-page id="Filtre">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Retour</ons-back-button>
+                </div>
+                <div class="center logo"></div>
+                <div class="right"> </div>
+            </ons-toolbar>
+            <ons-list>
+                <h1 style="text-align: center; margin:0;">Je recherche</h1>
+            </ons-list>
+            <ons-list>
+                <form id="search" method="POST">
+                    <ons-list-header>Rechercher dans Tags</ons-list-header>
+                    <div class="row">
+                        <div class="col">
+                            <ons-list-item>
+                                <div class="center">
+                                    <ons-select id="select-input" name="tags[]" style="width: 100%" multiple>
+                                        <option value="" selected disabled>Aucun</option>
+                                        
+                                        {{-- BRANDS --}}
+                                    </ons-select>
+                                </div>
+                            </ons-list-item>
+                        </div>
+                    </div>
+                    <ons-list-header>Rechercher dans Marques</ons-list-header>
+                    <ons-list-item>
+                        <div class="center">
+                            <ons-select id="select-input" name="brands[]" style="width: 100%" multiple>
+                                <option value=""> Aucun</option>
+                                
+                                {{-- BRANDS --}}
+                            </ons-select>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-header>Rechercher dans Titre</ons-list-header>
+                    <ons-list-item>
+                        <ons-input id="title" name="title" modifier="underbar" placeholder="Titre" float
+                            style="width: 100%" value="{{ old('title') }}"></ons-input>
+                    </ons-list-item>
+                    <ons-list-header>Rechercher dans Description</ons-list-header>
+                    <ons-list-item>
+                        <ons-input id="description" name="description" modifier="underbar" placeholder="Description"
+                            float style="width: 100%" value="{{ old('description') }}"></ons-input>
+                    </ons-list-item>
+                </form>
+                <ul class="list">
+                    <li>
+                        <div class="list-item__center">
+                            <button class="button--large--cta" onclick="window.fn.submit('search')">Rechercher</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item__center">
+                            <button class="button--large--cta" onclick="">Réinitialiser
+                                les filtres
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="alert-dialog.html">
+        <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
+            <div class="alert-dialog-title">Erreur</div>
+            <div class="alert-dialog-content">
+               
+            </div>
+            <div class="alert-dialog-footer">
+                
+                <ons-alert-dialog-button onclick="fn.pushPage('login.html',  {title: 'Filtre'});hideAlertDialog()">
+                    <b>Login</b></ons-alert-dialog-button>
+            </div>
+        </ons-alert-dialog>
+    </ons-template>
+
+
+    <style>
+        ons-splitter-side[animation=overlay] {
+            border-left: 1px solid #bbb;
+        }
+    </style>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <script>
+
+
+        window.fn = {};
+
+        window.fn.toggleMenu = function () {
+            document.getElementById('appSplitter').right.toggle();
+        };
+
+        window.fn.loadView = function (index) {
+            document.getElementById('appTabbar').setActiveTab(index);
+            document.getElementById('sidemenu').close();
+        };
+
+        window.fn.pushPage = function (page, options, params) {
+            if (params == null) {
+                document.getElementById('appNavigator').pushPage(page, { data: options });
+            } else {
+                document.getElementById('appNavigator').pushPage(page, { data: options, animation: params.animation });
+            }
+        };
+
+        window.fn.insertPage = function (index, page) {
+            document.getElementById('appNavigator').insertPage(index, page);
+        };
+
+        function showAnnounce(announce) {
+            document.location = announce;
+        };
+
+        function redirect(url) {
+            document.location = url;
+        };
+
+        function redirectBlank(url) {
+            window.open(url, '_blank')
+        }
+
+        window.fn.submit = function (form) {
+            document.getElementById(form).submit();
+        }
+    </script>
+
+    <script>
+        if (ons.platform.isIPhoneX()) { // Utility function
+            // Add empty attribute to the <html> element
+            //document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
+            //$('html[onsflag-iphonex-portrait] .toolbar').css('pading-top', '0');
+        }
+
+        if (("standalone" in window.navigator) && window.navigator.standalone) {
+            // If you want to prevent remote links in standalone web apps opening Mobile Safari, change 'remotes' to true
+            var noddy, remotes = false;
+            document.addEventListener('click', function (event) {
+                noddy = event.target;
+                // Bubble up until we hit link or top HTML element. Warning: BODY element is not compulsory so better to stop on HTML
+                while (noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+                    noddy = noddy.parentNode;
+                }
+                if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
+                    event.preventDefault();
+                    document.location.href = noddy.href;
+                }
+            }, false);
+        }
+    </script>
+
+</body>
+
+</html>
